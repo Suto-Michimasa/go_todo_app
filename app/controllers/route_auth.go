@@ -9,10 +9,33 @@ import (
 // Reactアプリケーションのビルドされたindex.htmlへのパスを定数として定義
 const ReactAppIndexPath = "../../frontend/build/index.html"
 
+func top(w http.ResponseWriter, r *http.Request) {
+	_, err := session(w, r)
+	if err != nil {
+		http.ServeFile(w, r, "../../frontend/build/index.html")
+	} else {
+		http.Redirect(w, r, "/todos", 302)
+	}
+}
+
+func index(w http.ResponseWriter, r *http.Request) {
+	_, err := session(w, r)
+	if err != nil {
+		http.Redirect(w, r, "/login", 302)
+	} else {
+		http.ServeFile(w, r, "../../frontend/build/index.html")
+	}
+}
+
 func signup(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		http.ServeFile(w, r, ReactAppIndexPath) // signup.htmlへのパスを適切に設定してください
+		if _, err := session(w, r); err == nil {
+			// セッションが存在する場合、/todosにリダイレクト
+			http.Redirect(w, r, "/todos", http.StatusSeeOther)
+			return
+		}
+		http.ServeFile(w, r, ReactAppIndexPath)
 
 	case "POST":
 		if err := r.ParseForm(); err != nil {
@@ -43,7 +66,12 @@ func signup(w http.ResponseWriter, r *http.Request) {
 func login(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		http.ServeFile(w, r, ReactAppIndexPath) // login.htmlへのパスを適切に設定してください
+		if _, err := session(w, r); err == nil {
+			// セッションが存在する場合、/todosにリダイレクト
+			http.Redirect(w, r, "/todos", http.StatusSeeOther)
+			return
+		}
+		http.ServeFile(w, r, ReactAppIndexPath)
 	}
 }
 

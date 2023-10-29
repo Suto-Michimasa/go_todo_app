@@ -11,6 +11,7 @@ const Navbar: React.FC = () => {
       </Button>
       <Button onClick={() => navigate('/login')} mr="4">Login</Button>
       <Button onClick={() => navigate('/')} mr="4">Home</Button>
+      <Button onClick={() => navigate('/todos')} mr="4">Todos</Button>
       <Button onClick={() => navigate('/logout')} mr="4">Logout</Button>
     </Box>
   );
