@@ -29,6 +29,7 @@ func StartMainServer() error {
 	http.HandleFunc("index", index)
 	http.HandleFunc("/signup", signup)
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/logout", logout)
 	http.HandleFunc("/authenticate", authenticate)
 
 	// それ以外のリクエストは、Reactのindex.htmlを提供
