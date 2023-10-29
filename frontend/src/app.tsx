@@ -1,13 +1,19 @@
-// App.tsx
+import React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./HomePage";
+import Signup from "./Signup";
 
-import React from 'react';
-import Signup from './Signup';
-
-const App: React.FC = () => {
+function App() {
   return (
-    <div>
-      <Signup />
-    </div>
+    <ChakraProvider>
+      <Router>
+        <Routes>
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/" element={<HomePage />} />
+        </Routes>
+      </Router>
+    </ChakraProvider>
   );
 }
 
